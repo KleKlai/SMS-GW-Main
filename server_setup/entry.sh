@@ -36,11 +36,12 @@ docker run -d \
 # Connect the Caddy container to the sms_gateway_network
 docker network connect sms_gateway_network caddy
 
-# Run Portainer container on the sms_gateway_network
+# Run Portainer container on the bridge network
 docker run -d \
   -p 9000:9000 \
   --name=portainer \
   --restart=always \
+  --network bridge \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v portainer_data:/data \
   portainer/portainer-ce
@@ -57,5 +58,39 @@ docker run -d \
   -v mariadb_data:/var/lib/mysql \
   -p 3306:3306 \
   mariadb:10.11 \
-  --bind-address=0.0.0.0 # remove bind-adress if use in production
+  --bind-address=0.0.0.0 # remove bind-address if used in production
 
+# Create a network for the monitoring services
+docker network create monitoring-network
+
+# Run Prometheus container
+docker run -d \
+  --name=prometheus \
+  --network=monitoring-network \
+  -v $(pwd)/prometheus.yml:/etc/prometheus/prometheus.yml \
+  -p 9090:9090 \
+  prom/prometheus:latest \
+  --config.file=/etc/prometheus/prometheus.yml
+
+# Run Node Exporter container
+docker run -d \
+  --name=node-exporter \
+  --network=monitoring-network \
+  -p 9100:9100 \
+  prom/node-exporter:latest
+
+# Run Grafana container
+docker run -d \
+  --name=grafana \
+  --network=monitoring-network \
+  -p 3000:3000 \
+  grafana/grafana:latest
+
+# Output the status of all services
+echo "Services are up and running:"
+docker ps
+
+# Instructions for Grafana setup
+echo "Grafana is accessible at http://localhost:3000"
+echo "Prometheus is accessible at http://localhost:9090"
+echo "Node Exporter is accessible at http://localhost:9100"
