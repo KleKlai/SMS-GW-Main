@@ -1,0 +1,34 @@
+gateway: # gateway config
+  mode: private # gateway mode (public - allow anonymous device registration, private - protected registration) [GATEWAY__MODE]
+  private_token: 123456789 # access token for device registration in private mode [GATEWAY__PRIVATE_TOKEN]
+http: # http server config
+  listen: 127.0.0.1:3000 # listen address [HTTP__LISTEN]
+  proxies:
+    - "127.0.0.1" # proxy address [HTTP__PROXIES]
+database: # database
+  dialect: mysql # database dialect (only mysql supported at the moment) [DATABASE__DIALECT]
+  host: "195.201.236.175" # database host [DATABASE__HOST]
+  port: 3306 # database port [DATABASE__PORT]
+  user: root # database user [DATABASE__USER]
+  password: bxtr1605 # database password [DATABASE__PASSWORD]
+  database: sms # database name [DATABASE__DATABASE]
+  timezone: UTC # database timezone (important for message TTL calculation) [DATABASE__TIMEZONE]
+fcm: # firebase cloud messaging config
+  credentials_json: >
+    {
+      "type": "service_account",
+      "project_id": "sms-gateway-6cf21",
+      "private_key_id": "cce0dc97ee8b9efc5d1bc8bae0fb29d99b3d7d9c",
+      "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCTaFFUCFC7Z5N1\nkD9lmsWWLEDdfOMKmxtP9l0ABPCv3q4t8qUq4+OD12Zvdc90y8jy9JsA7hlduTdJ\nqXVf+VTPemGW3OoGciCRWjOAvyDorSvg9vPuQNyzUiGB0EJONM8aU>
+      "client_email": "firebase-adminsdk-3e00m@sms-gateway-6cf21.iam.gserviceaccount.com",
+      "client_id": "116536946779989541448",
+      "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+      "token_uri": "https://oauth2.googleapis.com/token",
+      "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+      "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-3e00m%40sms-gateway-6cf21.iam.gserviceaccount.com"
+    }
+  timeout_seconds: 1 # push notification send timeout [FCM__DEBOUNCE_SECONDS]
+  debounce_seconds: 5 # push notification debounce (>= 5s) [FCM__TIMEOUT_SECONDS]
+tasks: # tasks config
+  hashing: # hashing task (hashes processed messages for privacy purposes)
+    interval_seconds: 15 # hashing interval in seconds [TASKS__HASHING__INTERVAL_SECONDS]
