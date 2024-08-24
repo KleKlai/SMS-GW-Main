@@ -76,8 +76,8 @@ fi
 PUBLIC_IP=$(curl -s -4 ifconfig.me)
 
 # Make an API call to Cloudflare to create a new DNS record and capture the response
-CLOUDFLARE_RESPONSE=$(curl -s -X POST "https://api.cloudflare.com/client/v4/zones/7e3a6614d2b4177aea5b8e3103ed5128/dns_records" \
-    -H "Authorization: Bearer Q9wrK7tsVKiIhz2V-bkv4LDb_gGPE2Wqk2JalNN3" \
+CLOUDFLARE_RESPONSE=$(curl -s -X POST "https://api.cloudflare.com/client/v4/zones/3867a8be8d5db2b4d29604d3c1c00944/dns_records" \
+    -H "Authorization: Bearer HJBZhQtdMoYOC7OTFFNiTfmS9mXR6BDiVZ_Diuf8" \
     -H "Content-Type: application/json" \
     --data '{
         "type": "A",

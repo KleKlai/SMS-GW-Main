@@ -1,3 +1,7 @@
 portainer.clashodds.com.ph {
     reverse_proxy 172.17.0.3:9000
 }
+
+monitoring.clashodds.com.ph {
+    reverse_proxy grafana:3000
+}
