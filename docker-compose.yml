@@ -1,0 +1,32 @@
+# this docker compose is required for nextjs in order to reflect the env on container
+services:
+  backend:
+    image: sms-gateway-backend:latest
+    container_name: sms-gateway-backend
+    ports:
+      - "8081:8081"
+    environment:
+      DB_USER: root
+      DB_PASS: bxtr1605
+      DB_HOST: host.docker.internal
+      DB_PORT: 3306
+      DB_NAME: todo
+    restart: unless-stopped
+    networks:
+      - cloudflared
+
+  frontend:
+    image: sms-gateway-frontend:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - cloudflared
+
+networks:
+  cloudflared:
+    external: true
+
+name: sms-gateway
+
